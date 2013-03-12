@@ -1,0 +1,47 @@
+Settings.Subject= 'test';
+Settings.BlockN= 1;
+Settings.TrialDelay= [0.5 1];
+
+%% screen
+Settings.Screen.DistanceCM= 70;   %% distance to screen, centimeters
+Settings.Screen.WidthCM= 30;      %% physical width of the screen, centimeters
+Settings.Screen.Gamma= 2.4;       %% gamma (ask Sasha or measure it)
+Settings.Screen.BackgroundLuminance= 0.2; %% single (gray luminance) or triplet, [0..1]
+Settings.Screen.WindowedSize= [50 50 1000 1000];	%% [left top right bottom]
+Settings.Screen.FullScreenSize= [1600 1200];      %% [width height]
+Settings.Screen.DefaultScreenID= 1; %% empty for a single screen
+Settings.Screen.FullScreen= 0;  %% 0 - windowed (with WindowedSize), 1 - full screen with FullScreenSize and FPS
+if (Settings.Screen.FullScreen) Settings.Screen.SkipSyncTest= 0; Settings.Screen.MeasureRealFPS= 1; else Settings.Screen.SkipSyncTest= 1; Settings.Screen.MeasureRealFPS= 0; end;
+
+%% current platform-specific response mapping
+KbName('UnifyKeyNames');
+Settings.Keyboard.Escape= KbName('escape');
+Settings.Keyboard.Space= KbName('space');
+Settings.Keyboard.Enter= KbName('return');
+Settings.Keyboard.Left= KbName('leftarrow');
+Settings.Keyboard.Right= KbName('rightarrow');
+Settings.Keyboard.Up= KbName('uparrow');
+Settings.Keyboard.Down= KbName('downarrow');
+
+%% Fixation marker
+Settings.Fixation.Color= [255 255 0];
+Settings.Fixation.Size= 10;
+
+%% Noisy cylinder
+Settings.NoisyCylinder.Width= 300;
+Settings.NoisyCylinder.Height= 300;
+Settings.NoisyCylinder.Speed= 1.0; %% Hz
+Settings.NoisyCylinder.SignalDirection= 0;
+Settings.NoisyCylinder.DotsN= 100;
+Settings.NoisyCylinder.Dot.Radius= 2;
+Settings.NoisyCylinder.Dot.Lifetime= 0.72; % seconds
+Settings.NoisyCylinder.Dot.RGB= [255 255 255];
+
+%% Hysteresis task
+Settings.Hysteresis.PrimeDuration= 1;
+Settings.Hysteresis.ProbeDuration= 4;
+Settings.Hysteresis.RepeatCondition= 2;
+Settings.Hysteresis.HalfPeriodDuration= [1 1];
+Settings.Hysteresis.StartLevel= [0 1];
+Settings.Hysteresis.OtherLevel= [1 0];
+
