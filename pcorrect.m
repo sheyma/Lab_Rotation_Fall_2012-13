@@ -1,6 +1,7 @@
 clear all;
+close all;
 
-load('/home/sheyma/devel/Lab_Rotation_Fall_2012-13/Hysteresis.3D/Hysteresis.OptimizeLifetime/Results/sheyma.mat');
+load('/Users/seyma/GIT/Lab_Rotation_Fall_2012-13/Hysteresis.3D/Hysteresis.OptimizeLifetime/Results/sheyma.mat');
 
 
 k=length(Block);
@@ -11,7 +12,7 @@ N=k*(numel(Block{1}.Correct)/numel(Lifetime));
 
 
 P_cor=zeros(length(Lifetime),k);
-P_correct=zeros(size(Lifetime));
+N_correct=zeros(size(Lifetime));
 
 for j=1:k
   for i=1:numel(Lifetime)
@@ -23,27 +24,30 @@ end
 
 
 for i=1:numel(Lifetime)
-    P_correct(i)=sum(P_cor(i,:));
+    N_correct(i)=sum(P_cor(i,:));
     
 end
 
 
-[phit, pci]=binofit(P_correct,N);
+%P_t can be negative, it should be avoided for binofit function
+
+P_t=abs(2*(N_correct/N)-1);
+
+
+[phit, pci]=binofit(P_t*N,N)
+
 
 
 
 hold on
-plot(Lifetime,phit,'--o','MarkerSize',8);
-axis([0 17 0 1])
+plot((Lifetime),phit,'--o','MarkerSize',8);
+ axis([0 17 0 1])
 for j=1:numel(Lifetime)
-    plot(Lifetime(j),linspace(pci(j,1),pci(j,2)));
+    plot((Lifetime(j)),linspace(pci(j,1),pci(j,2)));
 end
-
-
-
 hold off
-
-
+xlabel('Lifetime in Frames','Fontsize',16);
+ylabel('P_t','Fontsize',16);
 
 % plot(Lifetime,P_correct)
 
