@@ -13,14 +13,21 @@ hold on
 plot(x, 0.5*ones(size(x)), 'k--');
 plot(x,x,'k--');
 
-    params.NU=1;
-    params.ALPHA0=7.2755;
-    params.ALPHA1=-0.7789;
-    params.BETA=7;
+params.NU=1;
+params.ALPHA0=7.2755;
+params.ALPHA1=-0.7789;
+params.BETA=7;
+params.SIGMA=0.35;
+params.DT=0.02;
+params.TAU=0.3;
+params.STEP = params.DT/params.TAU;
+params.SIGMA_P=params.SIGMA * sqrt (params.TAU);
+
 
 for i=1:numel(s)
     plot(x,GLF_s(x,s(i),params),'r','LineWidth',2);
 end
+
 hold off
 xlabel('x','FontSize',16);
 ylabel('\Phi(x)','FontSize',16);
@@ -29,18 +36,17 @@ title('GLF for different s levels','FontSize',16);
 
 %%%%%%% plot activity x of a transient input s
 
-DT=0.02;
+
 T_end=1; % seconds
-n_step=T_end/DT;
-TAU=0.3;
+n_step=T_end/params.DT;
 
 T2=0.25;    % transient = DELTA-T
 T3=0.25;    % T2=T_end * .8
             % T1=T_end-(T3+T2);
 
 step_tot=round(n_step);
-step2=round(T2/DT);
-step3=round(T3/DT);
+step2=round(T2/params.DT);
+step3=round(T3/params.DT);
 step1=step_tot-(step2+step3);
 
 % coherence levels for s
@@ -51,17 +57,12 @@ c3=.4; % intermediate coherence value of s
 
 s_exp=[c1*ones(1,step1), c2*ones(1,step2), c3*ones(1,step3)];
 
-t_TAU=linspace(0,T_end,n_step)/TAU;
+t_TAU=linspace(0,T_end,n_step)/params.TAU;
 
-    x0=0.3;
-    params.SIGMA=0.35;
-    params.DT=0.02;
-    params.TAU=0.3;
-    params.SIGMA_P=params.SIGMA * sqrt (params.TAU);
-
+x0=0.3;
 xt=WilCow(s_exp,x0,params);
 
-[yss_h, yss_m, yss_l]=WC_ss(s_exp);
+[yss_h, yss_m, yss_l]=WC_ss(s_exp, params);
 
 figure(2);
 hold on
@@ -86,8 +87,6 @@ legend('\Delta T (transient)=0.25 s ', 'Location','NorthWest' );
 % 3. for each s, find x by WilCow by 200 repeats
 % 4. for each s, find P_yes and P_no
 
-TAU=0.3;
-DT=0.02;
 T_end=1;
 T3=0.25;
 T2=linspace(.1,.5,9);       % 9 different transient values
@@ -97,13 +96,7 @@ P_YES2=zeros(size(T2));
 
 N_repeat=200;
 
-    x0=0;
-    params.SIGMA=0.35;
-    params.DT=0.02;
-    params.TAU=0.3;
-    params.SIGMA_P=params.SIGMA * sqrt (params.TAU);
-
-
+x0=0;
 for i=1:numel(T2)
    
     % coherence levels of transient s
@@ -112,15 +105,15 @@ for i=1:numel(T2)
     c2=1;
     c3=0.4;
     
-    tot_step=round(T_end/DT);
-    step2=round(T2(i)/DT);
-    step3=round(T3/DT);
+    tot_step=round(T_end/params.DT);
+    step2=round(T2(i)/params.DT);
+    step3=round(T3/params.DT);
     step1=tot_step - (step2 + step3);
     
     s_new=[c1*ones(1,step1) c2*ones(1,step2) c3*ones(1,step3)];
     s_noT2=[c1*ones(1,step1+step2) c3*ones(1,step3)];
     
-%     t_TAU=DT*(1:tot_step)/TAU;
+    % t_TAU=DT*(1:tot_step)/params.TAU;
     
     N_YES1=0;
     N_YES2=0;
@@ -157,7 +150,7 @@ hold off
 axis([T2(1) T2(end) 0 1]);
 xlabel('t_{transient} [s]', 'Fontsize', 16);
 ylabel('P_{my models percept}', 'Fontsize', 16);
-title(['\tau=' num2str(TAU)], 'Fontsize', 16);
+title(['\tau=' num2str(params.TAU)], 'Fontsize', 16);
 
 
 printflag=1;
@@ -169,18 +162,11 @@ end
 return;
 
 
-
-
 % calculate GLF for different s scalar values
 % for GLF_s:  x is vector, s is scalar!!!!!!
 function y=GLF_s(x,s,params)
 
 % parameters for GLF function
-
-params.NU=1;
-params.ALPHA0=7.2755;
-params.ALPHA1=-0.7789;
-params.BETA=7;
 
 % let us make alpha depended on input s 
 
@@ -195,47 +181,34 @@ return;
 % Wilson Cowan model for a given stimulus and initial point
 function u=WilCow(st,u0,params)
 
-dt = params.DT / params.TAU;
-sigma= params.SIGMA_P;
-
 u=zeros(1,numel(st));
 u(1)=u0;
-nt= sigma * sqrt(dt) * normrnd(0,1,size(st));
- 
-    % Numerical Integration 
-    for i=2:numel(st)
-        du=dt* (-u(i-1) + GLF_s(u(i-1), st(i-1) )) + nt(i-1);
-        u(i) = u(i-1) + du;
-    end
-    
+nt= params.SIGMA_P * sqrt(params.STEP) * normrnd(0,1,size(st));
+
+% Numerical Integration 
+for i=2:numel(st)
+    du=params.STEP * (-u(i-1) + GLF_s(u(i-1), st(i-1), params )) + nt(i-1);
+    u(i) = u(i-1) + du;
+end
+
 return
 
 % find where GLF x=GLF_s(x) --- steady state points
-function yzero=GLF_ss(xss,s)
-
-params.NU=1;
-params.ALPHA0=7.2755;
-params.ALPHA1=-0.7789;
-params.BETA=7;
+function yzero=GLF_ss(xss,s, params)
 
 yzero=GLF_s(xss,s,params)-xss;
 
 return;
 
-function [yss_hi, yss_mid, yss_lo]=WC_ss(s)
+function [yss_hi, yss_mid, yss_lo]=WC_ss(s, params)
  
 yss_hi=nan(size(s));
 yss_mid=nan(size(s));
 yss_lo=nan(size(s));
 
-params.NU=1;
-params.ALPHA0=7.2755;
-params.ALPHA1=-0.7789;
-params.BETA=7;
-
 for i=1:numel(s)
     
-    xss=fsolve(@(x) GLF_ss( x,s(i) ), [0.01 0.5 0.99], optimset('Display','off') );
+    xss=fsolve(@(x) GLF_ss( x,s(i),params ), [0.01 0.5 0.99], optimset('Display','off') );
     yss=GLF_s(xss, s(i), params);
     
     if abs(yss(1) - xss(1)) < 0.01
