@@ -14,12 +14,12 @@ plot(x, 0.5*ones(size(x)), 'k--');
 plot(x,x,'k--');
 
 params.NU=1;
-params.ALPHA0=7.2755;
-params.ALPHA1=-0.7789;
-params.BETA=7;
-params.SIGMA=0.35;
+params.ALPHA0=4.0952;
+params.ALPHA1=1.5918;
+params.BETA=6;
+params.SIGMA=0.2;
 params.DT=0.02;
-params.TAU=0.3;
+params.TAU=0.1;
 params.STEP = params.DT/params.TAU;
 params.SIGMA_P=params.SIGMA * sqrt (params.TAU);
 
@@ -59,7 +59,7 @@ s_exp=[c1*ones(1,step1), c2*ones(1,step2), c3*ones(1,step3)];
 
 t_TAU=linspace(0,T_end,n_step)/params.TAU;
 
-x0=0.3;
+x0=0;
 xt=WilCow(s_exp,x0,params);
 
 [yss_h, yss_m, yss_l]=WC_ss(s_exp, params);
@@ -76,7 +76,7 @@ plot(t_TAU,yss_h,'--m','LineWidth',1);
 hold off
 xlabel('t/\tau (s)', 'FontSize', 16);
 ylabel('x, s', 'FontSize', 16);
-title('Activity x by WC model with transient s,  \tau=0.3 ', 'FontSize', 16);
+title('Activity x by WC model with transient s,  \tau=0.3 ','FontSize',16);
 legend('\Delta T (transient)=0.25 s ', 'Location','NorthWest' );
 
 
