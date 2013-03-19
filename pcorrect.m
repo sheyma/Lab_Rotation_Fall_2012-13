@@ -1,3 +1,5 @@
+% DATA: sheyma.mat belongs to "Hysteresis3D>...OptimizeLifetime>Results"
+
 clear all;
 close all;
 % P_correct (==P_t) versus LifetimeinFrames
@@ -45,8 +47,8 @@ for j=1:numel(Lifetime)
     plot((Lifetime(j)),linspace(pci(j,1),pci(j,2)));
 end
 hold off
-xlabel('Lifetime in Frames','Fontsize',16);
+xlabel('Lifetime in Frames (x10 = ms)','Fontsize',16);
 ylabel('P_t','Fontsize',16);
-title('Perceprion in Fraction as Lifetime of Dots','Fontsize',16);
+title('Perception in Fraction as Lifetime of Dots','Fontsize',16);
 
     
