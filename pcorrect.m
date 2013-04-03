@@ -5,7 +5,7 @@ close all;
 % P_correct (==P_t) versus LifetimeinFrames
 
 % Loading data from observer : Sheyma Bayrak
-load('/Users/seyma/GIT/Lab_Rotation_Fall_2012-13/Hysteresis.3D/Hysteresis.OptimizeLifetime/Results/sheyma.mat');
+load('Hysteresis.3D/Hysteresis.OptimizeLifetime/Results/sheyma.mat');
 
 % How manx cells of data I have from the experiment
 k=length(Block);

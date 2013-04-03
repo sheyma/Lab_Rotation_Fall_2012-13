@@ -66,18 +66,18 @@ xt=WilCow(s_exp,x0,params);
 
 figure(2);
 hold on
-plot(t_TAU,s_exp,'.k','LineWidth',6);
-% plot(t_TAU,xt,'r','LineWidth',2);
-% plot(t_TAU,yss_l,'--g','LineWidth',1);
-% plot(t_TAU,yss_m,'--b','LineWidth',1);
-% plot(t_TAU,yss_h,'--m','LineWidth',1);
+plot(t_TAU,s_exp,'.k','LineWidth',2);
+plot(t_TAU,xt,'r','LineWidth',2);
+plot(t_TAU,yss_l,'--g','LineWidth',1);
+plot(t_TAU,yss_m,'--b','LineWidth',1);
+plot(t_TAU,yss_h,'--m','LineWidth',1);
 
 % axis([0 10 0 1]);
 hold off
 xlabel('t/\tau (s)', 'FontSize', 16);
-ylabel('s', 'FontSize', 16);
+ylabel('x,s', 'FontSize', 16);
 legend('\Delta T (transient)=0.25 s ', 'Location','NorthWest' );
-% title('Activity x by WC model with transient s,  \tau=0.3 ','FontSize',16);
+title('Activity x by WC model with transient s,  \tau=0.3 ','FontSize',16);
 title('Step input s','FontSize',16);
 
 
@@ -119,6 +119,7 @@ for i=1:numel(T2)
     N_YES1=0;
     N_YES2=0;
     
+     
     for j=1:N_repeat
     
         x_new=WilCow(s_new,x0,params);
@@ -139,6 +140,7 @@ for i=1:numel(T2)
     
     
 end
+hold off
 
 figure(3)
 
@@ -149,15 +151,15 @@ plot(T2,P_YES2, 'b.','LineWidth',2);
 plot(T2,P_YES2, 'b--','LineWidth',2);
 hold off
 axis([T2(1) T2(end) 0 1]);
-xlabel('t_{transient} [s]', 'Fontsize', 16);
+xlabel('t_{transient} [s]', 'FontSize', 16);
 ylabel('P_{my models percept}', 'Fontsize', 16);
 title(['\tau=' num2str(params.TAU)], 'Fontsize', 16);
 
 
-printflag=1;
-if printflag 
-    print 'WC_my_exp_03' -depsc2;
-end
+% printflag=1;
+% if printflag 
+%     print 'WC_my_exp_03' -depsc2;
+% end
 
 
 return;

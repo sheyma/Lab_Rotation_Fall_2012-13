@@ -127,14 +127,36 @@ Steady states point are the points where a bifurcation is observed on the GLF fu
 
 
 \subsection{Wilson Cowan Model with Step Input}
-After analysing GLF, it is yet simpler to determine the activity $x(t)$ with Wilson-Cowan model. However, GLF is defined as depending on an external parameter called $s$. In fact, this parameter represents the ``coherence'' of the rotating dotf in my experiment, so it is an input related to stimulus. We would like to have very randomly moving dots with 0 coherence during the beginning of stimuli, then increase coherence up to 100 \% and then reduce it back to an intermediate level around 40 \%. The corresponding $s$ graph is shown below. 
+After analysing GLF, it is yet simpler to determine the activity $x(t)$ with Wilson-Cowan model. However, GLF is defined as depending on an external parameter called $s$. In fact, this parameter represents the ``coherence'' of the rotating dots in my experiment, so it is an input related to the stimulus. We would like to have very randomly moving dots with 0 coherence during the beginning of stimuli time, then increase coherence up to 100 \% and then reduce it back to an intermediate level around 40 \%. The corresponding $s$ graph is shown below. 
 
  \begin{center}
-\includegraphics[width=80mm,height=60mm]{step_input.eps} 
+\includegraphics[width=80mm,height=60mm]{step_s.eps} 
    \begin{footnotesize} Figure 6 : A step input level changing in time (divided by time constant on the x axis).  Transient time corresponds to width of maximum coherence in terms of duration. \end{footnotesize}
 \end{center}
 
+The well-defined parameters are now inserted into GLF, inclusively the parameter $\alpha$ with the dependence of the step input just shown above. The activity $x(t)$ is calculated by the numerical inegration of Equation 1 as Wilson-Cowan model suggested previously. The initial point of the activity $x_0$ is chosen to be 0, this corresponds to "no perception at the beginning" in my experiment.
 
+ \begin{center}
+\includegraphics[width=80mm,height=60mm]{my_WC.eps} 
+   \begin{footnotesize} Figure 7 : The activit $x$ is reflected as the red line above, black dots represent the step input $s$, and dashed lines stand for the steady state points of GLF for each $s$ value, green for the low steady state points, blue for intermediate transition levels, and magenta for high steady state points.  \end{footnotesize}
+\end{center}
+
+\subsection{Activity Probability of $s$ with Different Transient Values}
+The whole concern is actually to figure out where the activity $x(t)$ ends up. The activity itself is the theoretical model of the perception of the "observer". The initial value $x_0$ is already chosen to be 0, but the interested value is what $x(t)$ equals to after the total time duration of the model step stimuli. When the last value of $x(t)$ is greater than 0.5, it is assumed that the activity is successful, otherwise failed. To explain it more understable, let us use Figure 7, there the activity (red curve) ends up somewhere around greater than 0.5, so it is a successful or correct activity.
+
+Since $x(t)$ depends on a Gaussian white noise meaning a series of randomness, the correctness of activity needs to be calculated by a  statistical approach. In my program, I run the program 200 times for each step input coherence $s$ and then got a fraction of successful results of activity overall 200 trials as the following:
+\begin{equation}
+ P_{correct}=\dfrac{number \;\;\;of\;\;\;correct\;\;\;trials}{number\;\;\;of\;\;\;total\;\;\;trials}
+\end{equation}
+
+The last step of my theoretical anaylsis is to create $s$ with different transient durations. The 100 \% coherence level duration is changed linearly between 0.1 and 0.9 seconds. Then, Wilson-Cowan model is applied to find out the $x$, and $P_{correct}$ is eliminated.
+
+ \begin{center}
+\includegraphics[width=80mm,height=60mm]{my_P_correct.eps} 
+   \begin{footnotesize} Figure 8 : The red-dashed line represents the probability of correct activities corresponding to transient durations. The blue-dashed line is the same procedure repeated for the $s$ having no transient duration, it is assumed to be a "baseline".  \end{footnotesize}
+\end{center}
+
+\section{Experimental Part}
 
 
 
