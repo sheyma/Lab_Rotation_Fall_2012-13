@@ -112,7 +112,7 @@ figure;
 hold on
 plot(x,.5*ones(size(x)),'k--');
 plot(x,x,'k--');
-plot(x, GLF(x,alpha,beta,nu),'r','LineWidth',2);
+plot(x, GLF(x,alpha,beta,nu), 'r','LineWidth',2);
 plot(Xinfl,Yinfl,'ko', 'Markersize', 10);
 plot(Xinfl+eps,Yinfl+slope*eps,'k', 'LineWidth',2);
 plot(Xhalf,Yhalf,'bo', 'Markersize', 10);
@@ -124,7 +124,7 @@ xss=fsolve(@(x) GLFss(x, alpha, beta, nu), [0.01 0.5 0.99], optimset('Display', 
 % plotting stationary points
 for i=1:numel(xss)
     if abs(GLF(xss(i),alpha,beta,nu)-xss(i))<0.01
-        plot(xss(i), GLF(xss(i),alpha,beta,nu), 'k.', 'Markersize',10);
+        plot(xss(i), GLF(xss(i),alpha,beta,nu), 'k.', 'Markersize',30);
     end
 end
 
@@ -139,7 +139,7 @@ nu=real(dummy(1));
 beta=slope*(1+nu)^(1+1/nu);
 alpha = beta * Xhalf + log(2^nu-1);
 Xinfl = (alpha - log(nu)) / (beta);
-Hslope= beta*(1-2^(-nu))/(2*nu);
+Hslope= beta*(1-2^(-nu))/(2*nu); 
 
 
 plot(x,GLF(x,alpha,beta,nu),'r--','LineWidth',2);
@@ -153,9 +153,15 @@ xss=fsolve(@(x) GLFss(x, alpha, beta, nu), [0.01 0.5 0.99], optimset('Display', 
 % plotting stationary points
 for i=1:numel(xss)
     if abs(GLF(xss(i),alpha,beta,nu)-xss(i))<0.01
-        plot(xss(i), GLF(xss(i),alpha,beta,nu), 'k.', 'Markersize',10);
+        plot(xss(i), GLF(xss(i),alpha,beta,nu), 'k.', 'Markersize',30);
     end
 end
+
+xlabel( 'x', 'FontSize', 16);
+ylabel( '\Phi(x)', 'FontSize', 16);
+title('Steady State Points', 'FontSize', 16)
+hold off
+
 hold off
 
 
@@ -184,11 +190,11 @@ for i=1:numel(si)
    plot(x,GLF(x,alpha(i),beta,nu), clr(i), 'LineWidth',2) 
    plot(Xinf(i),Yinf,'ko','Markersize', 12)
 end
-
 xlabel( 'x', 'FontSize', 16);
-ylabel( '\Phi(x)', 'FontSize', 16);
-title('\alpha changes depending on s', 'FontSize', 16)
+ylabel( '\Phi(x,s)', 'FontSize', 16);
+title('GLF with linearly changing \alpha  ', 'FontSize', 16);
 hold off
+
 
 Xhalfi=0.6 - .2* si;
 

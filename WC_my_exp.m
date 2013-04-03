@@ -66,18 +66,19 @@ xt=WilCow(s_exp,x0,params);
 
 figure(2);
 hold on
-plot(t_TAU,s_exp,'.k','LineWidth',2);
-plot(t_TAU,xt,'r','LineWidth',2);
-plot(t_TAU,yss_l,'--g','LineWidth',1);
-plot(t_TAU,yss_m,'--b','LineWidth',1);
-plot(t_TAU,yss_h,'--m','LineWidth',1);
+plot(t_TAU,s_exp,'.k','LineWidth',6);
+% plot(t_TAU,xt,'r','LineWidth',2);
+% plot(t_TAU,yss_l,'--g','LineWidth',1);
+% plot(t_TAU,yss_m,'--b','LineWidth',1);
+% plot(t_TAU,yss_h,'--m','LineWidth',1);
 
 % axis([0 10 0 1]);
 hold off
 xlabel('t/\tau (s)', 'FontSize', 16);
-ylabel('x, s', 'FontSize', 16);
-title('Activity x by WC model with transient s,  \tau=0.3 ','FontSize',16);
+ylabel('s', 'FontSize', 16);
 legend('\Delta T (transient)=0.25 s ', 'Location','NorthWest' );
+% title('Activity x by WC model with transient s,  \tau=0.3 ','FontSize',16);
+title('Step input s','FontSize',16);
 
 
 %%%%%% plot T2 vs activity probability

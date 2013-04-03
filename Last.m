@@ -3,11 +3,6 @@ function Last
 clear all;
 close all;
 
-% params.NU=1;
-% params.ISLOPE=1.5;
-% params.BETA=params.ISLOPE*(1+abs(NU))^(1+1/abs(NU));
-% params.
-
 global NU ISLOPE BETA ALPHA0 ALPHA1 DT TAU SIGMAPRIME
 
 NU=1;
@@ -98,7 +93,7 @@ plot(s_level,yss_mid,'b','LineWidth',2);
 plot(s_level,yss_lo,'g','LineWidth',2);
 xlabel('s level','FontSize',16);
 ylabel('y_{hi}(red)  ,y_{mid}(blue),  y_{lo}(green)','FontSize',16);
-title('Steady States with WCss2', 'FontSize', 16);
+title('Steady States with changing external input s', 'FontSize', 16);
 hold off
 
 
